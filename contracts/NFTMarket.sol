@@ -5,6 +5,8 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
+// instances of nft or token refer to Non-Fungible Tokens
+
 contract NFTMarket is ReentrancyGuard {
     using Counters for Counters.Counter;
     Counters.Counter private _itemIds;
@@ -40,7 +42,7 @@ contract NFTMarket is ReentrancyGuard {
         bool sold
     );
 
-    // get listing price of each token. (hard coded)
+    // get listing price of each nft. (hard coded)
     function getListingPrice() public view returns (uint256) {
         return listingPrice;
     }
@@ -99,7 +101,16 @@ contract NFTMarket is ReentrancyGuard {
         // transfer matic from the buyer to the seller
         idToMarketItem[itemId].seller.transfer(msg.value);
 
-        // transfer ownership of token to buyer
+        // transfer ownership of nft to buyer
         IERC721(nftContract).transferFrom(address(this), msg.sender, tokenId);
+
+        // set owner of nft to buyer
+        // set sale state to true
+        // increment number of sold nfts
+        // pay the contract owner or nft seller
+        idToMarketItem[itemId].owner = payable(msg.sender);
+        idToMarketItem[itemId].sold = true;
+        _itemsSold.increment();
+        payable(owner).transfer(listingPrice);
     }
 }
