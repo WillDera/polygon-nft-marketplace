@@ -1,6 +1,7 @@
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Image from "next/image";
 import Web3Modal from "web3modal";
 import { nftaddress, nftmarketaddress } from "../config";
 import NFT from "../artifacts/contracts/NFT.sol/NFT.json";
@@ -16,8 +17,8 @@ export default function Home() {
 
   async function loadNFTs() {
     const provider = new ethers.providers.JsonRpcProvider();
-    const tokenContract = ethers.Contract(nftaddress, NFT.abi, provider);
-    const marketContract = ethers.Contract(
+    const tokenContract = new ethers.Contract(nftaddress, NFT.abi, provider);
+    const marketContract = new ethers.Contract(
       nftmarketaddress,
       Market.abi,
       provider
@@ -73,5 +74,39 @@ export default function Home() {
     return (
       <h1 className="px-20 py-10 text-3xl">No items on the marketplace</h1>
     );
-  return <div className={styles.container}></div>;
+  return (
+    <div className="flex justify-center">
+      <div className="px-4" style={{ maxWidth: "1600px" }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+          {nfts.map((nft, i) => (
+            <div key={i} className="border shadow rounded-xl overflow-hidden">
+              <Image alt="nft image" src={nft.image} />
+              <div className="p-4">
+                <p
+                  style={{ height: "64px" }}
+                  className="text-2xl font-semibold"
+                >
+                  {nft.name}
+                </p>
+                <div style={{ height: "70px", overflow: "hidden" }}>
+                  <p className="text-gray-400"> {nft.description} </p>
+                </div>
+              </div>
+              <div className="p-4 bg-black">
+                <p className="text-2xl mb-4 font-bold text-white">
+                  {nft.price} Matic
+                </p>
+                <button
+                  className="w-full bg-pink-500 text-white font-bold py-2 px-12 rounded"
+                  onClick={() => buyNFT(nft)}
+                >
+                  Buy
+                </button>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
 }
