@@ -27,7 +27,7 @@ export default function Home() {
 
     const items = await Promise.all(
       data.map(async (i) => {
-        const tokenUri = await tokenContract.tokenUri(i.tokenId);
+        const tokenUri = await tokenContract.tokenURI(i.tokenId);
         const meta = await axios.get(tokenUri);
         let price = ethers.utils.formatUnits(i.price.toString(), "ether");
 
@@ -80,7 +80,7 @@ export default function Home() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
           {nfts.map((nft, i) => (
             <div key={i} className="border shadow rounded-xl overflow-hidden">
-              <Image alt="nft image" src={nft.image} />
+              <Image alt="nft image" src={nft.image} width="350" height="350" />
               <div className="p-4">
                 <p
                   style={{ height: "64px" }}
