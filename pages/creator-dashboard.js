@@ -7,7 +7,7 @@ import { nftaddress, nftmarketaddress } from "../config";
 import NFT from "../artifacts/contracts/NFT.sol/NFT.json";
 import Market from "../artifacts/contracts/NFTMarket.sol/NFTMarket.json";
 
-export default function MyAssets() {
+export default function CreatorDashboard() {
   const [nfts, setNFTs] = useState([]);
   const [loadingState, setLoadingState] = useState("not-loaded");
   useEffect(() => {
@@ -46,35 +46,5 @@ export default function MyAssets() {
         return item;
       })
     );
-    setNFTs(items);
-    setLoadingState("loaded");
-  }
-  if (loadingState === "loaded" && !nfts.length)
-    return <h1 className="py-10 px-10 text-3xl">No assets owned</h1>;
 
-  return (
-    <div className="flex justify-center">
-      <div className="p-4">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
-          {nfts.map((nft, i) => (
-            <div key={i} className="border shadow rounded-xl overflow-hidden">
-              <Image
-                alt={nft.name}
-                src={nft.image}
-                className="rounded"
-                height="300"
-                width="250"
-              />
-              <div className="p-4 bg-black">
-                <p className="text-2xl font-bold text-white">
-                  {" "}
-                  Price - {nft.price}{" "}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
 }
