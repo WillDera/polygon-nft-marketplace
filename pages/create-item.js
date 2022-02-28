@@ -27,7 +27,7 @@ export default function CreateItem() {
         progress: (prog) => console.log(`received: ${prog}`),
       });
       const url = `https://ipfs.infura.io/ipfs/${added.path}`;
-      setFileUrl(url, 'layout="fill"');
+      setFileUrl(url);
     } catch (e) {
       console.log(e);
     }
@@ -111,6 +111,8 @@ export default function CreateItem() {
             className="rounded mt-4"
             width="350"
             height="350"
+            priority="true"
+            quality={100}
             src={fileUrl}
           />
         )}

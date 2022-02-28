@@ -62,8 +62,10 @@ export default function MyAssets() {
                 alt={nft.name}
                 src={nft.image}
                 className="rounded"
-                height="300"
-                width="250"
+                height={350}
+                width={350}
+                quality={100}
+                priority="true"
               />
               <div className="p-4 bg-black">
                 <p className="text-2xl font-bold text-white">
